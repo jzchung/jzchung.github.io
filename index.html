@@ -1,0 +1,74 @@
+---
+layout: default
+title: Home
+currentab: "All" 
+classes: ["All", "classA", "classB", "classC"]
+classname: "rightbar-tab"
+classnameon: "rightbar-tab rightbar-tab-on"
+---
+<link rel="stylesheet" href="/assets/css/styles.css">
+<main class="page-content" aria-label="Content">
+  <div class="wrapper">
+    <div class="leftbar">
+      <div class="leftbar-card namecard">
+        <div class="avartar"></div>
+        <h3>Jessie Chung</h3>
+        <p>Jessie Chung is now a  master student in <em>Shenzhen University</em>. Her research areas include: feature seletion, clustering and deep learning.</p>
+
+        {% for tip in site.data.usertips %}
+        <div class="namecard-tips">
+          <i class="fa {{tip.icon}}" style="width: 20px;text-align: center;"></i>
+          <div class="namecard-tips-text">
+            {{ tip.text }}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="mid-content">
+      <h2 class="post-list-heading">Posts</h2>
+            {% for post in site.posts %}
+            <div class="post-item">
+              <div class="post-item-nav">
+                <div class="post-item-nav-left">
+                  <div class="post-item-title" onclick="windlow.open();">
+                    {{post.title}}
+                  </div>
+                </div>
+                <div class="post-item-nav-right post-meta">{{ post.date | date_to_string: "ordinal", "US" }}</div>
+              </div>
+              <div class="post-item-content">{{ post.excerpt }}</div>
+              <div class="post-item-footer"><i class="fa fa-file-text-o"></i>
+                <!-- {{ post.categories }} -->
+                  {% for cate in post.categories %}
+                  <div class="catab">{{cate}}</div>
+                  {% endfor %}
+              </div>
+              
+              
+              
+            </div>
+            {% endfor %}
+      <!-- <ul class="post-list"><li><span class="post-meta">Jun 29, 2020</span>
+      <h3>
+          <a class="post-link" href="/jekyll/update/2020/06/29/welcome-to-jekyll.html">
+            Welcome to Jekyll!
+          </a>
+      </h3></li></ul> -->
+
+      <!-- <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p> -->
+    </div>
+    
+    <div class="rightbar">
+      {% for class in page.classes %}
+        {% if page.currentab == class %}
+          {% assign test = page.classnameon %}
+        {% else %}
+          {% assign test = page.classname %}
+        {% endif %}
+        <div class="{{ test }}">{{ class }}</div>
+      {% endfor %}
+    </div>
+  </div><!-- {% capture test %} {{ page.classname | append: " rightbar-tab-on"}}{% endcapture %} -->
+</main>
+

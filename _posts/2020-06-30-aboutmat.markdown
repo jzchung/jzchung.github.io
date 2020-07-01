@@ -1,0 +1,19 @@
+---
+layout: post
+title:  "【Matlab】关于matlab开启多核并行计算时SPMD测试失败的解决方法"
+date:   2020-06-30 16:09:43 +0800
+categories: 工程 Matlab
+---
+从[官方网站](https://ww2.mathworks.cn/matlabcentral/answers/92124-why-am-i-unable-to-use-parpool-with-the-local-scheduler-or-validate-my-local-configuration-of-parall)找到了解决方法。根据操作一步步排除（当然要先把`Parallel Computing Toolbox`给装上）：
+
+- 确保证书可用
+在matlab命令行中输入：
+`license checkout Distrib_Computing_Toolbox`
+如果`ANS=1`，则进行下一步排查，否则可以激活一下证书再看看。
+- 关闭local mpiexec功能
+`distcomp.feature( 'LocalUseMpiexec', false )`
+完成了这一步就已经解决了我的问题，官方指引还有其他的排除步骤这里就不一一列举了。可以看到下图SPMD job test成功通过，并且也能将`parpool`建立起来了。
+
+![测试通过](https://img-blog.csdnimg.cn/20191118162910203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zNzkwNjY2Mg==,size_16,color_FFFFFF,t_70)
+![成功开启](https://img-blog.csdnimg.cn/20191118162940178.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zNzkwNjY2Mg==,size_16,color_FFFFFF,t_70)
+
